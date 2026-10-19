@@ -23,13 +23,25 @@ class LibraryCatalog:
     def add_patron(self, patron):
         self.patrons[patron.patron_id] = patron
 
-    def checkout_book(self, isbn, patron_id)
+    def checkout_book(self, isbn, patron_id):
         if isbn in self.books and patron_id in self.patrons:
             book = self.books[isbn]
             patron = self.patrons[patron_id]
             if not book.is_book_checked_out:
                 book.is_book_checked_out = True
-                Patron.books_barrowed.append(book.title)
+                patron.books_borrowed.append(book.title)
+                return True
+
+        return False
+    
+    def return_book(self, isbn, patron_id):
+        if isbn in self.books and patron_id in self.patrons:
+            book = self.books[isbn]
+            patron = self.patrons[patron_id]
+
+            if book.is_book_checked_out and book.title in patron.books_borrowed:
+                book.is_book_checked_out = False
+                patron.books_borrowed.remove(book.title)
                 return True
 
         return False
